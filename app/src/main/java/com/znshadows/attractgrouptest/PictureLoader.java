@@ -22,7 +22,7 @@ public class PictureLoader extends AsyncTask<Void, Void, String> {
     };
     private String resultJson = "";
     private String dataSource = "";
-
+    Bitmap downloadedPickture;
     public PictureLoader(String source, OnBitmapLoadListener onBitmapLoadListener)
     {
         dataSource = source;
@@ -37,9 +37,9 @@ public class PictureLoader extends AsyncTask<Void, Void, String> {
         try {
             URL newurl = new URL(dataSource);
             //loading picture
-            Bitmap bmp = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+            downloadedPickture = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
             //calls listener when finished
-            onBitmapLoadListener.onFinish(bmp);
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,8 +47,15 @@ public class PictureLoader extends AsyncTask<Void, Void, String> {
         return resultJson;
     }
 
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        Log.e("Loading", "listener called, PictureLoader" );
+        onBitmapLoadListener.onFinish(downloadedPickture);
 
-   public interface OnBitmapLoadListener {
+    }
+
+    public interface OnBitmapLoadListener {
         public void onFinish(Bitmap bitmap);
     }
 }

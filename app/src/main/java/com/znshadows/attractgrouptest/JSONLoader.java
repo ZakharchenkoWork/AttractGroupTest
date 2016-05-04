@@ -87,15 +87,18 @@ public class JSONLoader extends AsyncTask<Void, Void, String> {
                     PictureLoader loadPicture = new PictureLoader(superHeroJSON.getString("image"), new PictureLoader.OnBitmapLoadListener() {
                         @Override
                         public void onFinish(Bitmap bitmap) {
+                            Log.e("Loading", "listener called, in JSONLoader, downloaded: " + heroes.size() + " heroes");
                             superHero.setImage(bitmap);
                             heroes.add(superHero);
+                            onLoadFinishListener.onFinish(heroes);
+
                         }
                     });
                     loadPicture.execute();
 
 
                 }
-                onLoadFinishListener.onFinish(heroes);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

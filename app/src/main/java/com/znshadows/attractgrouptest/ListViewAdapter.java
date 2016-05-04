@@ -1,6 +1,7 @@
 package com.znshadows.attractgrouptest;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,9 +55,15 @@ public class ListViewAdapter extends BaseAdapter {
         //Time insertion
         //TextView timeText = (TextView) view.findViewById(R.id.nameText);
 
+        Log.e("Loading", "updating with: " + heroes.size() + " heroes");
 
 
+        return view;
+    }
 
-        return null;
+    public void updateResults(ArrayList<SuperHero> heroes) {
+        this.heroes = heroes;
+        //Triggers the list update
+        notifyDataSetChanged();
     }
 }
