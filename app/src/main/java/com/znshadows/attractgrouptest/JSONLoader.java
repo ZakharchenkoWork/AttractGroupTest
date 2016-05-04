@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class JSONLoader extends AsyncTask<Void, Void, String> {
     private OnLoadFinishListener onLoadFinishListener = new OnLoadFinishListener() {
         @Override
-        public void onFinish(ArrayList<SuperHero> heroes) {
+        public void onFinish() {
             Log.e("OnLoadFinishListener","JSONLoader: Custom listener is not defined");
         }
     };
@@ -73,7 +73,7 @@ public class JSONLoader extends AsyncTask<Void, Void, String> {
             try {
 
                 mainJsonArray = new JSONArray(strJson);
-                final ArrayList<SuperHero> heroes = new ArrayList<SuperHero>();
+
                 Log.d("JSON", ""+strJson);
                 for(int i = 0; i < mainJsonArray.length(); i++)
                 {
@@ -87,10 +87,11 @@ public class JSONLoader extends AsyncTask<Void, Void, String> {
                     PictureLoader loadPicture = new PictureLoader(superHeroJSON.getString("image"), new PictureLoader.OnBitmapLoadListener() {
                         @Override
                         public void onFinish(Bitmap bitmap) {
-                            Log.e("Loading", "listener called, in JSONLoader, downloaded: " + heroes.size() + " heroes");
+                            Log.e("Loading", "listener called, in JSONLoader, downloaded: ");
                             superHero.setImage(bitmap);
-                            heroes.add(superHero);
-                            onLoadFinishListener.onFinish(heroes);
+                            SuperHero.addHeroToList(superHero);
+                            onLoadFinishListener.onFinish();
+
 
                         }
                     });
@@ -104,7 +105,7 @@ public class JSONLoader extends AsyncTask<Void, Void, String> {
             }
         }
     public interface OnLoadFinishListener {
-        public void onFinish(ArrayList<SuperHero> heroes);
+        public void onFinish();
     }
 
 }

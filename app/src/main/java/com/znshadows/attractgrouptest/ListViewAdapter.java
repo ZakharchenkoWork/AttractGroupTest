@@ -22,12 +22,12 @@ import java.util.ArrayList;
  * Created by kostya on 04.05.2016.
  */
 public class ListViewAdapter extends BaseAdapter {
-    private ArrayList<SuperHero> heroes = null;
+
     LayoutInflater lInflater;
     Context ctx;
 
-    public ListViewAdapter(Context context, ArrayList<SuperHero> heroes) {
-        this.heroes = heroes;
+    public ListViewAdapter(Context context) {
+
         ctx = context;
         lInflater = (LayoutInflater) ctx
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -35,12 +35,12 @@ public class ListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return heroes.size();
+        return SuperHero.getAllHeroes().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return heroes.get(position);
+        return SuperHero.getAllHeroes().get(position);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
             view = lInflater.inflate(R.layout.main_list_item, parent, false);
@@ -68,18 +68,20 @@ public class ListViewAdapter extends BaseAdapter {
 
         //Text for name insertion
         TextView nameOfHero = (TextView) view.findViewById(R.id.nameText);
-        nameOfHero.setText(heroes.get(position).getName());
+        nameOfHero.setText(SuperHero.getAllHeroes().get(position).getName());
         //Time insertion
         TextView timeText = (TextView) view.findViewById(R.id.timeText);
-        timeText.setText(heroes.get(position).getConvertedTime());
+        timeText.setText(SuperHero.getAllHeroes().get(position).getConvertedTime());
 
-        Log.e("Loading", "updating with: " + heroes.size() + " heroes");
+        Log.e("Loading", "updating with: " + SuperHero.getAllHeroes().size() + " heroes");
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ctx, SuperHeroActivity.class);
+                intent.putExtra("idToShow", position);
                 ctx.startActivity(intent);
+
             }
         });
         return view;
@@ -96,17 +98,16 @@ public class ListViewAdapter extends BaseAdapter {
         ((Activity) ctx).getWindowManager()
                 .getDefaultDisplay()
                 .getMetrics(displaymetrics);
-        float aspectRatio = (float) heroes.get(position).getImage().getWidth() / (float) displaymetrics.widthPixels;
-        return Bitmap.createScaledBitmap(heroes.get(position).getImage(), displaymetrics.widthPixels, (int) (heroes.get(position).getImage().getHeight() / aspectRatio), false);
+        float aspectRatio = (float) SuperHero.getAllHeroes().get(position).getImage().getWidth() / (float) displaymetrics.widthPixels;
+        return Bitmap.createScaledBitmap(SuperHero.getAllHeroes().get(position).getImage(), displaymetrics.widthPixels, (int) (SuperHero.getAllHeroes().get(position).getImage().getHeight() / aspectRatio), false);
+
     }
 
     /**
      * use in case of changes in heroes list
-     *
-     * @param heroes list of heroes
      */
-    public void updateResults(ArrayList<SuperHero> heroes) {
-        this.heroes = heroes;
+    public void updateResults() {
+
         //Triggers the list update
         notifyDataSetChanged();
     }
