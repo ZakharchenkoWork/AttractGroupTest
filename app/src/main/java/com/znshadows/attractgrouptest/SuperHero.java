@@ -2,6 +2,9 @@ package com.znshadows.attractgrouptest;
 
 import android.graphics.Bitmap;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by kostya on 04.05.2016.
  */
@@ -54,6 +57,15 @@ public class SuperHero {
 
     public long getTime() {
         return time;
+    }
+    /**
+     * To get date and time in required format
+     */
+    public String getConvertedTime() {
+        SimpleDateFormat destFormat = new SimpleDateFormat("dd-MMMM-yyyy HH:mm");
+        Date date = new Date(time);
+
+        return destFormat.format(date);
     }
 
     public void setTime(long time) {
