@@ -18,34 +18,19 @@ public class SuperHeroActivity extends FragmentActivity {
 
     static int PAGE_COUNT = SuperHero.getAllHeroes().size();
 
-    ViewPager pager;
-    PagerAdapter pagerAdapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed);
 
-        pager = (ViewPager) findViewById(R.id.pager);
-        pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
-        pager.setAdapter(pagerAdapter);
-
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
+        //preparing Swiping sreens
+        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        //adapter wwhich will manage our swaping
+        pager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
+        //setts item to be shown on start (item which were clickd on previous screen)
         pager.setCurrentItem( getIntent().getIntExtra("idToShow", 0) );
     }
 

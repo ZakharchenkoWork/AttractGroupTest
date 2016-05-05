@@ -22,10 +22,10 @@ import com.znshadows.attractgrouptest.data.SuperHero;
  */
 public class ListViewAdapter extends BaseAdapter {
 
-    LayoutInflater lInflater;
-    Context ctx;
-    boolean isFilterSet = false;
-    String filterText;
+    private Context ctx;
+    private LayoutInflater lInflater;
+    private boolean isFilterSet = false;
+    private String filterText;
 
     public ListViewAdapter(Context context) {
 
@@ -34,33 +34,48 @@ public class ListViewAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    /**
+     * also helps to show filtered result
+     *
+     * @return total amount of items
+     */
     @Override
     public int getCount() {
         if (isFilterSet) {
-            if(isItemFilteredAvailiable()) {
+            if (isItemFilteredAvailiable()) { // show 1 result
                 return 1;
-            } else return 0;
-        } else {
+            } else { // Show nothing
+                return 0;
+            }
+        } else {// show all items
             return SuperHero.getAllHeroes().size();
         }
     }
 
+    /**
+     * also helps to show filtered result
+     *
+     * @return Object(item) which shold be used in this iteration
+     */
     @Override
     public Object getItem(int position) {
-        if(isFilterSet){
-            if(isItemFilteredAvailiable()) {
-                return getFilteredHero();
+        if (isFilterSet) { //if filter is on
+            if (isItemFilteredAvailiable()) {//and we found smth
+                return getFilteredHero(); //founded item
             }
         }
-
+        //normal items one by one to list
         return SuperHero.getAllHeroes().get(position);
     }
 
+    /**
+     * also helps to show filtered result
+     */
     @Override
     public long getItemId(int position) {
-        if(isFilterSet) {
-            if (isItemFilteredAvailiable()) {
-                return getFilteredHeroId();
+        if (isFilterSet) {//if filter is on
+            if (isItemFilteredAvailiable()) {//and we found smth
+                return getFilteredHeroId();//id of founded item
             }
         }
         return position;
@@ -69,11 +84,12 @@ public class ListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
+        //inserting empty view
         if (view == null) {
             view = lInflater.inflate(R.layout.main_list_item, parent, false);
         }
-
-        if(isFilterSet) {
+        // for correct displaying of data
+        if (isFilterSet) {
             if (isItemFilteredAvailiable()) {
                 position = getFilteredHeroId();
             }
@@ -83,6 +99,7 @@ public class ListViewAdapter extends BaseAdapter {
         //Heroes gets pictures
         LinearLayout imageOfHero = (LinearLayout) view.findViewById(R.id.picture);
         Bitmap heroScaledBitmap = scalePicture(position);
+        //method of setting picture defined by the SDK version
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             imageOfHero.setBackground(new BitmapDrawable(view.getResources(), heroScaledBitmap));
         } else {
@@ -93,6 +110,7 @@ public class ListViewAdapter extends BaseAdapter {
         //Text for name insertion
         TextView nameOfHero = (TextView) view.findViewById(R.id.nameText);
         nameOfHero.setText(SuperHero.getAllHeroes().get(position).getName());
+
         //Time insertion
         TextView timeText = (TextView) view.findViewById(R.id.timeText);
         timeText.setText(SuperHero.getAllHeroes().get(position).getConvertedTime());
@@ -109,7 +127,7 @@ public class ListViewAdapter extends BaseAdapter {
             }
         });
 
-            return view;
+        return view;
 
 
     }
@@ -121,12 +139,19 @@ public class ListViewAdapter extends BaseAdapter {
      * @return scaled picture
      */
     private Bitmap scalePicture(int position) {
+
+        //getting screen size
         DisplayMetrics displaymetrics = new DisplayMetrics();
-        ((Activity) ctx).getWindowManager()
-                .getDefaultDisplay()
-                .getMetrics(displaymetrics);
-        float aspectRatio = (float) SuperHero.getAllHeroes().get(position).getImage().getWidth() / (float) displaymetrics.widthPixels;
-        return Bitmap.createScaledBitmap(SuperHero.getAllHeroes().get(position).getImage(), displaymetrics.widthPixels, (int) (SuperHero.getAllHeroes().get(position).getImage().getHeight() / aspectRatio), false);
+        ((Activity) ctx).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+        // calculate scale that will be used for picture on this screen
+        float scale = (float) SuperHero.getAllHeroes().get(position).getImage().getWidth() / (float) displaymetrics.widthPixels;
+
+        // calculate perfect height for picture to be shown with normal aspect ratio
+        int pictureHight = (int) (SuperHero.getAllHeroes().get(position).getImage().getHeight() / scale);
+
+        //change size of picture with prepared width and height
+        return Bitmap.createScaledBitmap(SuperHero.getAllHeroes().get(position).getImage(), displaymetrics.widthPixels, pictureHight, false);
 
     }
 
@@ -139,40 +164,65 @@ public class ListViewAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    /**
+     * handles filter
+     *
+     * @param filterText setup for filter
+     */
     public void showOnlyFiltered(String filterText) {
-        if (!filterText.equals("")) {
+        if (!filterText.equals("")) { // if filter is set, (not empty)
             this.filterText = filterText;
             isFilterSet = true;
             Log.e("filter", "filter is showing: " + filterText);
-        } else {
+        } else { // if filter is empty marks to return to default, (show all items)
             this.filterText = "";
             isFilterSet = false;
         }
         updateResults();
     }
 
+    /**
+     * Can we found item with such name in list
+     *
+     * @return true if there is such element
+     */
     private boolean isItemFilteredAvailiable() {
 
         for (int i = 0; i < SuperHero.getAllHeroes().size(); i++) {
+            // compare names for each item
             if (filterText.toLowerCase().equals(SuperHero.getAllHeroes().get(i).getName().toLowerCase())) {
                 return true;
             }
         } // end for
         return false;
     }
+
+    /**
+     * Search by names through items, and returns founded items
+     *
+     * @return item which was found on filter, or null if not found
+     */
     private SuperHero getFilteredHero() {
         for (int i = 0; i < SuperHero.getAllHeroes().size(); i++) {
+            // compare names for each item
             if (filterText.toLowerCase().equals(SuperHero.getAllHeroes().get(i).getName().toLowerCase())) {
-
+                //item founded
                 return SuperHero.getAllHeroes().get(i);
             }
         } // end for
         return null;
     }
+
+    /**
+     * id of item with searched name
+     *
+     * @return id in list of items, 0 if not found
+     */
     private int getFilteredHeroId() {
         for (int i = 0; i < SuperHero.getAllHeroes().size(); i++) {
+            // compare names for each item
             if (filterText.toLowerCase().equals(SuperHero.getAllHeroes().get(i).getName().toLowerCase())) {
-
+                //id ofitem founded
                 return i;
             }
         } // end for

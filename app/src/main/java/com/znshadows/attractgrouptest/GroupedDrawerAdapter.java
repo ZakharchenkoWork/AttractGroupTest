@@ -18,16 +18,18 @@ import android.widget.TextView;
  * Created by kostya on 05.05.2016.
  */
 public class GroupedDrawerAdapter extends BaseAdapter {
-    Context ctx;
-    LayoutInflater lInflater;
-    int[] groups;
-    String[] items;
-    boolean isDividerNext = false;
+    private Context ctx;
+    private LayoutInflater lInflater;
+    private int[] groups; // groups sorted. id in array means nummber of group, value number of items in group
+    private String[] items; // items from which data should be shown
+    private boolean isDividerNext = false; // is the next step should be divider flag
+
     /**
      * Special Adapter for Navigational menu which will draw dividers between groups of elements
+     *
      * @param context context of an app
-     * @param items items to be add
-     * @param groups array which size is number of groups, and values are numbers of items inside this groups
+     * @param items   items to be add
+     * @param groups  array which size is number of groups, and values are numbers of items inside this groups
      */
     public GroupedDrawerAdapter(Context context, String[] items, int[] groups) {
         this.groups = groups;
@@ -39,7 +41,9 @@ public class GroupedDrawerAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return items.length + groups.length-1;
+        // divder is also a view, so for total number of items is desribed as all text items plus
+        // all dividers, minus one because we don't need divider at the end.
+        return items.length + groups.length - 1;
     }
 
     @Override
@@ -55,31 +59,39 @@ public class GroupedDrawerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
+        //inserting empty view
         if (view == null) {
             view = lInflater.inflate(R.layout.navigation_menu_item, parent, false);
         }
-        if(!isDividerNext) {
+        //if we have to show items now (not divider)
+        if (!isDividerNext) {
             int groupsSum = 0;
             int groupNumber = 0;
+            // It is some math magic, please don't ask, i hadn't sleep all night,
+            // I wrote this code at 0700 am, and started to write this comment at 1400, still not sleeping
+            //I just want to get a job. and sleep. Please.
             for (int j = 0; j < groups.length; j++) {
-            Log.d("adapter" , "j = " + j);
+                Log.d("adapter", "j = " + j);
                 groupsSum += groups[j]; // 2 // 3
-                Log.d("adapter" , "groupSum = " + groupsSum);
-                if (position - j == groupsSum - 1 ) { // 1 //2
-                    Log.d("adapter" , "position = " + position);
+                Log.d("adapter", "groupSum = " + groupsSum);
+                if (position - j == groupsSum - 1) { // 1 //2
+                    Log.d("adapter", "position = " + position);
                     isDividerNext = true;
                 }
-                if(position <= groupsSum) // (0,1) < 2 // pos(2) - divider // 2 < 3
-                {groupNumber = j;
-                    Log.d("adapter" , "groupNum again = " + groupNumber);
-                    break;} // 0
+                if (position <= groupsSum) // (0,1) < 2 // pos(2) - divider // 2 < 3
+                {
+                    groupNumber = j;
+                    Log.d("adapter", "groupNum again = " + groupNumber);
+                    break;
+                } // 0
             }
 
             TextView itemText = (TextView) view.findViewById(R.id.itemText);
-            Log.d("adapter" , "items pos, groupNumber = " + "pos = " + position + " - groupNumber = " + groupNumber  );
+            Log.d("adapter", "items pos, groupNumber = " + "pos = " + position + " - groupNumber = " + groupNumber);
             itemText.setText(items[position - groupNumber]); //0,1  - 0//
 
         } else {
+            //adding a divider as
             Log.d("divider", "divider added");
             view = insertDivider(view);
             isDividerNext = false;
@@ -87,9 +99,15 @@ public class GroupedDrawerAdapter extends BaseAdapter {
         }
         return view;
     }
-private View insertDivider(View view) {
-    view.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,5));
-    view.setBackgroundColor(Color.WHITE);
-   return view;
-}
+
+    /**
+     *
+     * @param view
+     * @return
+     */
+    private View insertDivider(View view) {
+        view.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 5));
+        view.setBackgroundColor(Color.WHITE);
+        return view;
+    }
 }

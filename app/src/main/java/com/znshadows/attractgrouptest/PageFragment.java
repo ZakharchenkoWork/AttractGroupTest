@@ -22,6 +22,7 @@ public class PageFragment extends Fragment {
 
 
     static PageFragment newInstance(int page) {
+        //preparing page swaping
         PageFragment pageFragment = new PageFragment();
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
@@ -33,30 +34,33 @@ public class PageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
-        //int id = getIntent().getIntExtra("idToShow",0);
-
 
     }
 
+    /**
+     * fills data
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_super_hero, null);
 
-        //TextView tvPage = (TextView) view.findViewById(R.id.tvPage);
-        //tvPage.setText("Page " + pageNumber);
-        //tvPage.setBackgroundColor(backColor);
-       // int id = getIntent().getIntExtra("idToShow",0);
+        //picture
         ImageView heroPicture = (ImageView) view.findViewById(R.id.imageView);
         heroPicture.setImageBitmap(SuperHero.getAllHeroes().get(pageNumber).getImage());
+        //id
         TextView itemId = (TextView) view.findViewById(R.id.itemId);
         itemId.setText(""+SuperHero.getAllHeroes().get(pageNumber).getItemId());
+        //name
         TextView name = (TextView) view.findViewById(R.id.name);
         name.setText(SuperHero.getAllHeroes().get(pageNumber).getName());
+        //time
         TextView time = (TextView) view.findViewById(R.id.time);
         time.setText(SuperHero.getAllHeroes().get(pageNumber).getConvertedTime());
+        //description
         TextView description = (TextView) view.findViewById(R.id.description);
         description.setText(SuperHero.getAllHeroes().get(pageNumber).getDescription());
+
         return view;
     }
 }

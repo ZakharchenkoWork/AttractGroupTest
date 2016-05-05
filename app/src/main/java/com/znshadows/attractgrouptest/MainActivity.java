@@ -18,14 +18,14 @@ import com.znshadows.attractgrouptest.dataLoading.JSONLoader;
 import com.znshadows.attractgrouptest.dataLoading.Loader;
 
 public class MainActivity extends AppCompatActivity {
-private static final String DATA_SOURCE = "http://others.php-cd.attractgroup.com/test.json";
+private static final String DATA_SOURCE = "http://others.php-cd.attractgroup.com/test.json"; // URL with data
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // if there is no internet, there is no point to lunch application
         if(isNetworkAvailable())
         {
             Toast.makeText(this,"connected", Toast.LENGTH_LONG).show();
@@ -33,11 +33,13 @@ private static final String DATA_SOURCE = "http://others.php-cd.attractgroup.com
             Toast.makeText(this,"Not connected", Toast.LENGTH_LONG).show();
             close();
         }
+        //hides keybord on start, otherwise it is anoyng at start, it apears because of the filter field on the main screen
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        //preparing list with data
         final ListView listView = (ListView) findViewById(R.id.listView);
         final ListViewAdapter adapter = new ListViewAdapter(MainActivity.this);
         listView.setAdapter(adapter);
-
+        //as soon as firt part of data will be loaded, list will be updated
         Loader load = new Loader(DATA_SOURCE, new JSONLoader.OnLoadFinishListener() {
             @Override
             public void onFinish() {
@@ -82,6 +84,10 @@ private static final String DATA_SOURCE = "http://others.php-cd.attractgroup.com
 
     }
 
+    /**
+     * checks if the device connected to the internet
+     * @return tue if device is connected
+     */
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -89,6 +95,9 @@ private static final String DATA_SOURCE = "http://others.php-cd.attractgroup.com
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    /**
+     * closes MainActivity, which means closing of the application
+     */
     public void close() {
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
         homeIntent.addCategory( Intent.CATEGORY_HOME );
