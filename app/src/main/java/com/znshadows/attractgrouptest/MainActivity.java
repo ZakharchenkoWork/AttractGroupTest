@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -41,13 +42,10 @@ private static final String DATA_SOURCE = "http://others.php-cd.attractgroup.com
         final ListViewAdapter adapter = new ListViewAdapter(MainActivity.this);
         listView.setAdapter(adapter);
 
-        JSONLoader load = new JSONLoader(DATA_SOURCE, new JSONLoader.OnLoadFinishListener() {
+        Loader load = new Loader(DATA_SOURCE, new JSONLoader.OnLoadFinishListener() {
             @Override
             public void onFinish() {
-
                 adapter.updateResults();
-
-
 
             }
         });
@@ -69,11 +67,21 @@ private static final String DATA_SOURCE = "http://others.php-cd.attractgroup.com
 
             }
         });
-        ListView leftDrawerList = (ListView)findViewById(R.id.left_drawer);
-        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+
         String[] items = {getString(R.string.menu_item1), getString(R.string.menu_item2), getString(R.string.menu_item3),getString(R.string.menu_item4)};
         int[] groups = {2,2};
-        leftDrawerList.setAdapter(new GroupedDrawerAdapter(this, items, groups ));
+
+        if (findViewById(R.id.drawer_layout) == null) {
+
+            ListView leftDrawerList = (ListView)findViewById(R.id.left_drawer);
+            leftDrawerList.setAdapter(new GroupedDrawerAdapter(this, items, groups ));
+        } else {
+            DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ListView leftDrawerList = (ListView)findViewById(R.id.left_drawer);
+            leftDrawerList.setAdapter(new GroupedDrawerAdapter(this, items, groups ));
+        }
+
 
 
     }

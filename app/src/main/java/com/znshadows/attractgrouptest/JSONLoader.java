@@ -14,16 +14,19 @@ import java.util.ArrayList;
 /**
  * Created by kostya on 04.05.2016.
  */
-public class JSONLoader extends AsyncTask<Void, Void, String> {
+abstract class JSONLoader extends AsyncTask<Void, Void, String> {
+    public OnLoadFinishListener getOnLoadFinishListener() {
+        return onLoadFinishListener;
+    }
+
     private OnLoadFinishListener onLoadFinishListener = new OnLoadFinishListener() {
         @Override
         public void onFinish() {
             Log.e("OnLoadFinishListener","JSONLoader: Custom listener is not defined");
         }
     };
-        private HttpURLConnection urlConnection = null;
-        private BufferedReader reader = null;
-        private String resultJson = "";
+
+
         private final String dataSource;
 
 
@@ -34,7 +37,9 @@ public class JSONLoader extends AsyncTask<Void, Void, String> {
 
     @Override
         protected String doInBackground(Void... params) {
-
+        String resultJson = "";
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
             try {
                 //Preparing URL
                 URL url = new URL(dataSource);
@@ -66,44 +71,10 @@ public class JSONLoader extends AsyncTask<Void, Void, String> {
         @Override
         protected void onPostExecute(String strJson) {
             super.onPostExecute(strJson);
+            parcing(strJson);
 
-            JSONArray mainJsonArray = null;
-            String secondName = "";
-
-            try {
-
-                mainJsonArray = new JSONArray(strJson);
-
-                Log.d("JSON", ""+strJson);
-                for(int i = 0; i < mainJsonArray.length(); i++)
-                {
-                    JSONObject superHeroJSON = mainJsonArray.getJSONObject(i);
-                    final SuperHero superHero = new SuperHero(superHeroJSON.getInt("itemId"),
-                            superHeroJSON.getString("name"),
-                            superHeroJSON.getString("description"), superHeroJSON.getLong("time"));
-
-
-                    //Loading Picture
-                    PictureLoader loadPicture = new PictureLoader(superHeroJSON.getString("image"), new PictureLoader.OnBitmapLoadListener() {
-                        @Override
-                        public void onFinish(Bitmap bitmap) {
-                            Log.e("Loading", "listener called, in JSONLoader, downloaded: ");
-                            superHero.setImage(bitmap);
-                            SuperHero.addHeroToList(superHero);
-                            onLoadFinishListener.onFinish();
-
-
-                        }
-                    });
-                    loadPicture.execute();
-
-
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
         }
+    abstract protected void parcing(String jsonString);
     public interface OnLoadFinishListener {
         public void onFinish();
     }

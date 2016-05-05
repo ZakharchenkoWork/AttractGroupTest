@@ -2,24 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/AppTheme">
+    android:background="@color/colorBackground">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:src="@drawable/thor"
-        android:background="@color/colorBackground"
-        android:layout_alignParentTop="true"
         android:scaleType="fitStart"
-        android:layout_above="@+id/textLayout"
+        android:background="@color/colorBackground"
+        android:layout_toLeftOf="@+id/textLayout"
          />
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:id="@+id/textLayout"
         android:background="@color/colorBackground"
         android:gravity="bottom">
