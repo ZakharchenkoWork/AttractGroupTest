@@ -9,17 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.znshadows.attractgrouptest.dataLoading.JSONLoader;
+import com.znshadows.attractgrouptest.dataLoading.Loader;
 
 public class MainActivity extends AppCompatActivity {
 private static final String DATA_SOURCE = "http://others.php-cd.attractgroup.com/test.json";

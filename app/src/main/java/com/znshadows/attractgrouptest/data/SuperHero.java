@@ -1,8 +1,7 @@
-package com.znshadows.attractgrouptest;
+package com.znshadows.attractgrouptest.data;
 
 import android.graphics.Bitmap;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,7 +9,7 @@ import java.util.Date;
 /**
  * Created by kostya on 04.05.2016.
  */
-public class SuperHero{
+public class SuperHero {
     //This array is here, because of bitmap which is not serializable and cannot be passed from one
     //Activity to another, with intent extras.
     private static ArrayList<SuperHero> allHeroes = new ArrayList<SuperHero>();
@@ -22,17 +21,29 @@ public class SuperHero{
     private String description;//: "heavy armor",x
     private long time;//: "1457018867393"
 
+    /**
+     * Adds object to end if it's not int he list yet.
+     * otherwise simply refreshes item.
+     * @param hero
+     */
     public static void addHeroToList(SuperHero hero) {
         for (int i = 0; i < allHeroes.size(); i++) {
-            if (allHeroes.get(i).getItemId() ==  hero.itemId)
-            {
+            if (allHeroes.get(i).getItemId() == hero.itemId) {
                 allHeroes.set(i, hero);
                 return;
             }
         }
-            allHeroes.add(hero);
+        allHeroes.add(hero);
     }
 
+    /**
+     * Creates prepared object, Warning: picture should be loaded separately as Bitmap
+     * @see #setImage
+     * @param itemId
+     * @param name
+     * @param description
+     * @param time
+     */
     public SuperHero(int itemId, String name, String description, long time) {
         this.itemId = itemId;
         this.name = name;
@@ -80,10 +91,12 @@ public class SuperHero{
     public long getTime() {
         return time;
     }
+
     /**
      * To get date and time in required format
      */
     public String getConvertedTime() {
+        //prepearing of the required format
         SimpleDateFormat destFormat = new SimpleDateFormat("dd-MMMM-yyyy HH:mm");
         Date date = new Date(time);
 

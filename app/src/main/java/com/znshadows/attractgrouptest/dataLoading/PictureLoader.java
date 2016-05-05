@@ -1,10 +1,9 @@
-package com.znshadows.attractgrouptest;
+package com.znshadows.attractgrouptest.dataLoading;
 
 /**
  * Created by MisterY on 17.09.2015.
  */
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
