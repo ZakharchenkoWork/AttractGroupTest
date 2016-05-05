@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AttractGroupTest</string>
+    <string name="menu_item1">Magical</string>
+    <string name="menu_item2">List</string>
+    <string name="menu_item3">Navigational</string>
+    <string name="menu_item4">Menu</string>
+    <string name="filter_hint_text">Filter</string>
 </resources>

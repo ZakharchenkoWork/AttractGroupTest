@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AttractGroupTest</string>
+    <string name="menu_item1">Боковое</string>
+    <string name="menu_item2">Меню</string>
+    <string name="menu_item3">Разделенное</string>
+    <string name="menu_item4">На группы</string>
+    <string name="filter_hint_text">Фильтр</string>
+</resources>
