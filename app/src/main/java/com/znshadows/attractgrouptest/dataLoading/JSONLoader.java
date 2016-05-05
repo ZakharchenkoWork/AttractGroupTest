@@ -1,4 +1,5 @@
 package com.znshadows.attractgrouptest.dataLoading;
+
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -20,14 +21,13 @@ public abstract class JSONLoader extends AsyncTask<Void, Void, String> {
     private OnLoadFinishListener onLoadFinishListener = new OnLoadFinishListener() {
         @Override
         public void onFinish() {
-            Log.e("OnLoadFinishListener","JSONLoader: Custom listener is not defined");
+            Log.w("OnLoadFinishListener", "JSONLoader: Custom listener is not defined");
         }
     };
 
 
     /**
-     *
-     * @param dataURL link to the JSON file.
+     * @param dataURL              link to the JSON file.
      * @param onLoadFinishListener implement this interface to get results in place
      *                             where you create object of this class
      */
@@ -37,51 +37,53 @@ public abstract class JSONLoader extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-        protected String doInBackground(Void... params) {
+    protected String doInBackground(Void... params) {
         String resultJson = "";
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
-            try {
-                //Preparing URL
-                URL url = new URL(dataSource);
+        try {
+            //Preparing URL
+            URL url = new URL(dataSource);
 
-                //connecting to Server
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-                //Preparing to read data
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+            //connecting to Server
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.connect();
+            //Preparing to read data
+            InputStream inputStream = urlConnection.getInputStream();
+            StringBuffer buffer = new StringBuffer();
 
-                reader = new BufferedReader(new InputStreamReader(inputStream));
+            reader = new BufferedReader(new InputStreamReader(inputStream));
 
-                //reading JSON
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                }
-                resultJson = buffer.toString();
-                urlConnection.getResponseCode();
-            } catch (Exception e) {
-                e.printStackTrace();
+            //reading JSON
+            String line;
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
             }
-
-            return resultJson;
+            resultJson = buffer.toString();
+            urlConnection.getResponseCode();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        @Override
-        protected void onPostExecute(String strJson) {
-            super.onPostExecute(strJson);
-            //call for Owerided method in ancestor
-            parcing(strJson);
+        return resultJson;
+    }
 
-        }
+    @Override
+    protected void onPostExecute(String strJson) {
+        super.onPostExecute(strJson);
+        //call for Owerided method in ancestor
+        parcing(strJson);
+
+    }
+
     public OnLoadFinishListener getOnLoadFinishListener() {
         return onLoadFinishListener;
     }
 
     /**
      * Owerride this method in ancestor and parce String obtained from server
+     *
      * @param jsonString string with JSON code from server
      */
     abstract protected void parcing(String jsonString);

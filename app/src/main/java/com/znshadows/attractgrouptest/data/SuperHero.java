@@ -24,6 +24,7 @@ public class SuperHero {
     /**
      * Adds object to end if it's not int he list yet.
      * otherwise simply refreshes item.
+     *
      * @param hero
      */
     public static void addHeroToList(SuperHero hero) {
@@ -38,11 +39,12 @@ public class SuperHero {
 
     /**
      * Creates prepared object, Warning: picture should be loaded separately as Bitmap
-     * @see #setImage
+     *
      * @param itemId
      * @param name
      * @param description
      * @param time
+     * @see #setImage
      */
     public SuperHero(int itemId, String name, String description, long time) {
         this.itemId = itemId;
