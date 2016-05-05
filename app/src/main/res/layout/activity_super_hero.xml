@@ -10,6 +10,8 @@
         android:id="@+id/imageView"
         android:src="@drawable/thor"
         android:background="@color/colorBackground"
+        android:layout_alignParentTop="true"
+
         android:layout_above="@+id/textLayout"
          />
 
