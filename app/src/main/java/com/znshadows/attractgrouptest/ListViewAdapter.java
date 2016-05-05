@@ -25,6 +25,8 @@ public class ListViewAdapter extends BaseAdapter {
 
     LayoutInflater lInflater;
     Context ctx;
+    boolean isFilterSet = false;
+    String filterText;
 
     public ListViewAdapter(Context context) {
 
@@ -35,24 +37,47 @@ public class ListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return SuperHero.getAllHeroes().size();
+        if (isFilterSet) {
+            if(isItemFilteredAvailiable()) {
+                return 1;
+            } else return 0;
+        } else {
+            return SuperHero.getAllHeroes().size();
+        }
     }
 
     @Override
     public Object getItem(int position) {
+        if(isFilterSet){
+            if(isItemFilteredAvailiable()) {
+                return getFilteredHero();
+            }
+        }
+
         return SuperHero.getAllHeroes().get(position);
     }
 
     @Override
     public long getItemId(int position) {
+        if(isFilterSet) {
+            if (isItemFilteredAvailiable()) {
+                return getFilteredHeroId();
+            }
+        }
         return position;
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
             view = lInflater.inflate(R.layout.main_list_item, parent, false);
+        }
+
+        if(isFilterSet) {
+            if (isItemFilteredAvailiable()) {
+                position = getFilteredHeroId();
+            }
         }
 
 
@@ -74,17 +99,20 @@ public class ListViewAdapter extends BaseAdapter {
         timeText.setText(SuperHero.getAllHeroes().get(position).getConvertedTime());
 
         Log.e("Loading", "updating with: " + SuperHero.getAllHeroes().size() + " heroes");
-
+        final int id = position;
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ctx, SuperHeroActivity.class);
-                intent.putExtra("idToShow", position);
+                intent.putExtra("idToShow", id);
                 ctx.startActivity(intent);
 
             }
         });
-        return view;
+
+            return view;
+
+
     }
 
     /**
@@ -110,5 +138,45 @@ public class ListViewAdapter extends BaseAdapter {
 
         //Triggers the list update
         notifyDataSetChanged();
+    }
+
+    public void showOnlyFiltered(String filterText) {
+        if (!filterText.equals("")) {
+            this.filterText = filterText;
+            isFilterSet = true;
+            Log.e("filter", "filter is showing: " + filterText);
+        } else {
+            this.filterText = "";
+            isFilterSet = false;
+        }
+        updateResults();
+    }
+
+    private boolean isItemFilteredAvailiable() {
+
+        for (int i = 0; i < SuperHero.getAllHeroes().size(); i++) {
+            if (filterText.toLowerCase().equals(SuperHero.getAllHeroes().get(i).getName().toLowerCase())) {
+                return true;
+            }
+        } // end for
+        return false;
+    }
+    private SuperHero getFilteredHero() {
+        for (int i = 0; i < SuperHero.getAllHeroes().size(); i++) {
+            if (filterText.toLowerCase().equals(SuperHero.getAllHeroes().get(i).getName().toLowerCase())) {
+
+                return SuperHero.getAllHeroes().get(i);
+            }
+        } // end for
+        return null;
+    }
+    private int getFilteredHeroId() {
+        for (int i = 0; i < SuperHero.getAllHeroes().size(); i++) {
+            if (filterText.toLowerCase().equals(SuperHero.getAllHeroes().get(i).getName().toLowerCase())) {
+
+                return i;
+            }
+        } // end for
+        return 0;
     }
 }
