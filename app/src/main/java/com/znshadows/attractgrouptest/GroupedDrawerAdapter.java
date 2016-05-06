@@ -66,29 +66,36 @@ public class GroupedDrawerAdapter extends BaseAdapter {
         //if we have to show items now (not divider)
         if (!isDividerNext) {
             int groupsSum = 0;
-            int groupNumber = 0;
+            int numberOfDividers = 0;
             // It is some math magic, please don't ask, i hadn't sleep all night,
             // I wrote this code at 0700 am, and started to write this comment at 1400, still not sleeping
             //I just want to get a job. and sleep. Please.
-            for (int j = 0; j < groups.length; j++) {
-                Log.d("adapter", "j = " + j);
-                groupsSum += groups[j]; // 2 // 3
+            for (int groupNumber = 0; groupNumber < groups.length; groupNumber++) {
+                Log.d("adapter", "j = " + groupNumber);
+                //Sum of the element in groups,
+                groupsSum += groups[groupNumber];
                 Log.d("adapter", "groupSum = " + groupsSum);
-                if (position - j == groupsSum - 1) { // 1 //2
+                // we have dividers after each group, so if our position
+                // without dividers is right at the end of group
+                // we insert a divider on the next position
+                if (position - groupNumber == groupsSum - 1) {
                     Log.d("adapter", "position = " + position);
                     isDividerNext = true;
                 }
-                if (position <= groupsSum) // (0,1) < 2 // pos(2) - divider // 2 < 3
+                // As we iterrate over groups. if our position is less then sum of group elements by now
+                // we knw that our position belongs to current group
+                if (position <= groupsSum)
                 {
-                    groupNumber = j;
+                    numberOfDividers = groupNumber;
                     Log.d("adapter", "groupNum again = " + groupNumber);
                     break;
                 } // 0
             }
 
             TextView itemText = (TextView) view.findViewById(R.id.itemText);
-            Log.d("adapter", "items pos, groupNumber = " + "pos = " + position + " - groupNumber = " + groupNumber);
-            itemText.setText(items[position - groupNumber]); //0,1  - 0//
+            Log.d("adapter", "items pos, groupNumber = " + "pos = " + position + " - groupNumber = " + numberOfDividers);
+            // our position in array of valeus equals position in ListView minus dividers, as they are displayed as elements of ListView
+            itemText.setText(items[position - numberOfDividers]);
 
         } else {
             //adding a divider as
