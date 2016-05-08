@@ -13,7 +13,6 @@ Portfolio project.
 ![screenShot7](https://github.com/ZakharchenkoWork/AttractGroupTest/blob/master/screenshots/screenshot__7.png)
 ![screenShot8](https://github.com/ZakharchenkoWork/AttractGroupTest/blob/master/screenshots/screenshot__8.png)
 ![screenShot9](https://github.com/ZakharchenkoWork/AttractGroupTest/blob/master/screenshots/screenshot__9.png)
-![screenShot10](https://github.com/ZakharchenkoWork/AttractGroupTest/blob/master/screenshots/screenshot__10.png)
 
 ## Usage
 For any device with android 4.0+
