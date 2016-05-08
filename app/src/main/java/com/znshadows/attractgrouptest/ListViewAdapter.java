@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.znshadows.attractgrouptest.data.SuperHero;
@@ -98,7 +99,7 @@ public class ListViewAdapter extends BaseAdapter {
 
         //Heroes gets pictures
         LinearLayout imageOfHero = (LinearLayout) view.findViewById(R.id.picture);
-        Bitmap heroScaledBitmap = scalePicture(position);
+        Bitmap heroScaledBitmap = rescale(position, parent.getWidth());
         //method of setting picture defined by the SDK version
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             imageOfHero.setBackground(new BitmapDrawable(view.getResources(), heroScaledBitmap));
@@ -148,11 +149,31 @@ public class ListViewAdapter extends BaseAdapter {
         float scale = (float) SuperHero.getAllHeroes().get(position).getImage().getWidth() / (float) displaymetrics.widthPixels;
 
         // calculate perfect height for picture to be shown with normal aspect ratio
-        int pictureHight = (int) (SuperHero.getAllHeroes().get(position).getImage().getHeight() / scale);
+        int pictureHeight = (int) (SuperHero.getAllHeroes().get(position).getImage().getHeight() / scale);
 
         //change size of picture with prepared width and height
-        return Bitmap.createScaledBitmap(SuperHero.getAllHeroes().get(position).getImage(), displaymetrics.widthPixels, pictureHight, false);
+        return Bitmap.createScaledBitmap(SuperHero.getAllHeroes().get(position).getImage(), displaymetrics.widthPixels, pictureHeight, false);
 
+    }
+
+    private Bitmap rescale(int position, float width) {
+
+        //in case of change orientation, screen width will be 0, untill screen completely loaded.
+        //After loadng e will refresh ListView any way
+        if(width > 0) {
+        // calculate scale that will be used for picture on this screen
+        float scale = (float) SuperHero.getAllHeroes().get(position).getImage().getWidth() / width;
+
+        // calculate perfect height for picture to be shown with normal aspect ratio
+        int pictureHeight = (int) (SuperHero.getAllHeroes().get(position).getImage().getHeight() / scale);
+
+
+            //change size of picture with prepared width and height
+            return Bitmap.createScaledBitmap(SuperHero.getAllHeroes().get(position).getImage(), (int) width, pictureHeight, false);
+        }
+        else {
+            return SuperHero.getAllHeroes().get(position).getImage();
+        }
     }
 
     /**

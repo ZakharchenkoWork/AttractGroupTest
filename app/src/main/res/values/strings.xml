@@ -5,4 +5,6 @@
     <string name="menu_item3">Navigational</string>
     <string name="menu_item4">Menu</string>
     <string name="filter_hint_text">Filter</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
