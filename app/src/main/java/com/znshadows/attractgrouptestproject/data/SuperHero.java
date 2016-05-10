@@ -14,7 +14,6 @@ public class SuperHero {
     //Activity to another, with intent extras.
     private static ArrayList<SuperHero> allHeroes = new ArrayList<SuperHero>();
 
-
     private int itemId; //: "10056",
     private String name;//: "IronMan",
     private Bitmap image;//: "http://s8.hostingkartinok.com/uploads/images/2016/03/b70762d52599ffc44dc7539bf57baa1c.jpg",

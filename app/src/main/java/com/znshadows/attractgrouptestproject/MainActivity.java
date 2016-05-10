@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.znshadows.attractgrouptestproject.data.Filter;
+import com.znshadows.attractgrouptestproject.data.SuperHero;
 import com.znshadows.attractgrouptestproject.dataLoading.JSONLoader;
 import com.znshadows.attractgrouptestproject.dataLoading.Loader;
 
@@ -41,11 +43,14 @@ public class MainActivity extends AppCompatActivity {
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+
         //hides keybord on start, otherwise it is anoyng at start, it apears because of the filter field on the main screen
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         //preparing list with data
         final ListView listView = (ListView) findViewById(R.id.listView);
-        final ListViewAdapter adapter = new ListViewAdapter(MainActivity.this);
+        //empty filter for ListView adapter initialization
+        Filter filter = new Filter("", null);
+        final ListViewAdapter adapter = new ListViewAdapter(MainActivity.this, filter);
         listView.setAdapter(adapter);
 
         //prevents from reloading data in case of change orientation
@@ -62,15 +67,15 @@ public class MainActivity extends AppCompatActivity {
             Loader load = new Loader(DATA_SOURCE, new JSONLoader.OnLoadFinishListener() {
                 @Override
                 public void onFinish() {
-                    adapter.updateResults();
+                    adapter.updateList(new Filter("", SuperHero.getAllHeroes()));
                     isDataLoaded = true;
 
                 }
             });
             load.execute();
         }
-        final EditText filter = (EditText) findViewById(R.id.filter);
-        filter.addTextChangedListener(new EditTextListener(adapter));
+        final EditText filterinputField = (EditText) findViewById(R.id.filter);
+        filterinputField.addTextChangedListener(new EditTextListener(adapter));
 
     }
 
@@ -127,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            adapter.showOnlyFiltered(s.toString());
+            adapter.updateList(new Filter(s.toString(), SuperHero.getAllHeroes()));
         }
 
         @Override
