@@ -1,9 +1,9 @@
-package com.znshadows.attractgrouptest.dataLoading;
+package com.znshadows.attractgrouptestproject.dataLoading;
 
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.znshadows.attractgrouptest.data.SuperHero;
+import com.znshadows.attractgrouptestproject.data.SuperHero;
 
 import org.json.JSONArray;
 import org.json.JSONException;

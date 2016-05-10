@@ -1,4 +1,4 @@
-package com.znshadows.attractgrouptest;
+package com.znshadows.attractgrouptestproject;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,10 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.znshadows.attractgrouptest.data.SuperHero;
+import com.znshadows.attractgrouptestproject.data.SuperHero;
 
 /**
  * Created by kostya on 04.05.2016.

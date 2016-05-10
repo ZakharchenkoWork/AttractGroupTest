@@ -1,4 +1,4 @@
-package com.znshadows.attractgrouptest.dataLoading;
+package com.znshadows.attractgrouptestproject.dataLoading;
 
 /**
  * Created by MisterY on 17.09.2015.

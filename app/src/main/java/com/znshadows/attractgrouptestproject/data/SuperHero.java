@@ -1,4 +1,4 @@
-package com.znshadows.attractgrouptest.data;
+package com.znshadows.attractgrouptestproject.data;
 
 import android.graphics.Bitmap;
 

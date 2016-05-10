@@ -1,4 +1,4 @@
-package com.znshadows.attractgrouptest;
+package com.znshadows.attractgrouptestproject;
 
 /**
  * Created by kostya on 05.05.2016.
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.znshadows.attractgrouptest.data.SuperHero;
+import com.znshadows.attractgrouptestproject.data.SuperHero;
 
 public class PageFragment extends Fragment {
 

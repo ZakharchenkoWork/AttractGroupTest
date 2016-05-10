@@ -1,30 +1,24 @@
-package com.znshadows.attractgrouptest;
+package com.znshadows.attractgrouptestproject;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.znshadows.attractgrouptest.dataLoading.JSONLoader;
-import com.znshadows.attractgrouptest.dataLoading.Loader;
+import com.znshadows.attractgrouptestproject.dataLoading.JSONLoader;
+import com.znshadows.attractgrouptestproject.dataLoading.Loader;
 
 /**
  * Created by kostya on 07.05.2016.

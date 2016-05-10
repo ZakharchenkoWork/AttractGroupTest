@@ -1,14 +1,13 @@
-package com.znshadows.attractgrouptest;
+package com.znshadows.attractgrouptestproject;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.znshadows.attractgrouptest.data.SuperHero;
+import com.znshadows.attractgrouptestproject.data.SuperHero;
 
 /**
  * Created by kostya on 04.05.2016.

@@ -1,4 +1,4 @@
-package com.znshadows.attractgrouptest;
+package com.znshadows.attractgrouptestproject;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

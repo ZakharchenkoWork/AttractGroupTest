@@ -1,4 +1,4 @@
-package com.znshadows.attractgrouptest;
+package com.znshadows.attractgrouptestproject;
 
 import org.junit.Test;
 
